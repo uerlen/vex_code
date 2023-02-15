@@ -137,34 +137,80 @@ void work(){
 // 
 
 
-int fs=5;
 
-void f0()
+int fz=1;
+
+void z1()
 {
-  fs++;
-  fs%=6;
-  Controller1.Screen.print("发射速度：  %d   ",fs*20);
+  fz*=-1;
 }
 
-void f1()
+void z2()
 {
-  Pne.set(1);
-  MotorShot2.spin(fwd,20*fs,pct);
-  MotorShot1.spin(fwd,20*fs,pct);
-  Controller1.Screen.print("发射速度：  %d   ",fs*20);
-}
-
-void fire()
-{
-  Controller1.ButtonX.pressed(f1);
-  Controller1.ButtonB.pressed(f0);
-  Controller1.Screen.print("发射速度：  %d   ",fs*20);
+  MotorFire.spin(fwd,100,pct);
   wait(0.5,sec);
-  Pne.set(0);
-  MotorShot1.stop(hold);
-  MotorShot2.stop(hold);
-  Controller1.Screen.print("发射速度：  %d    ",fs*20);
+  MotorFire.spin(reverse,100,pct);
+  wait(0.5,sec);
+  MotorFire.stop();
 }
+
+int z()
+{
+  while (fz==1)  {
+    Controller1.ButtonB.pressed(z1);
+    MotorShot1.spin(fwd,100,pct);
+  }
+  MotorShot1.stop();
+  return 1;
+}
+
+task zzz = task(z);
+
+
+// 旧版发射程序！！！
+// int fs=5;
+
+// void f0()
+// {
+//   fs++;
+//   fs%=6;
+//   Controller1.Screen.print("发射速度：  %d   ",fs*20);
+// }
+
+// void f1()
+// {
+//   Pne.set(1);
+//   MotorShot2.spin(fwd,20*fs,pct);
+//   MotorShot1.spin(fwd,20*fs,pct);
+//   Controller1.Screen.print("发射速度：  %d   ",fs*20);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void fire()
+// {
+//   Controller1.ButtonX.pressed(f1);
+//   Controller1.ButtonB.pressed(f0);
+//   Controller1.Screen.print("发射速度：  %d   ",fs*20);
+//   wait(0.5,sec);
+//   Pne.set(0);
+//   MotorShot1.stop(hold);
+//   MotorShot2.stop(hold);
+//   Controller1.Screen.print("发射速度：  %d    ",fs*20);
+// }
+
+
 
 /*
 IIIIIIIIII           I
@@ -180,7 +226,7 @@ bool check(int input,float& move)
 pid(int g,int j,float pkin,float ikin,float dkin)
 */
 
-void gofordegree(int goal){
+void gfd(int goal){
   pids go ;
   go.pre(goal,0.7,0.3,0.3,goal*0.1);
   float movement;
@@ -188,7 +234,7 @@ void gofordegree(int goal){
   while ( go.check(MotorLB.position(degrees) , movement) ) af::move(movement,movement);
 }
 
-void turnfordegree(int goal){
+void tfd(int goal){
   pids go ;
   go.pre(goal,0.7,0.3,0.3,goal*0.1);
   float movement = 50;
@@ -230,13 +276,23 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  
-
-  
+  gfd(-200);
+  tfd(-90);
+  gfd(-50);
+  zzz.resume();
+  gfd(50);
+  tfd(45);
+  gfd(200);
+  z2();
+  wait(2,sec);
+  zzz.suspend();
 }
+
+
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
+
     check();
     walk_con();
     work();
