@@ -129,6 +129,43 @@ void work(){
   MotorGet2.spin(forward,getspeed,pct);
 }
 
+
+// 以下为发射程序！！
+// 
+// 
+// 
+// 
+
+
+int fs=5;
+
+void f0()
+{
+  fs++;
+  fs%=6;
+  Controller1.Screen.print("发射速度：  %d   ",fs*20);
+}
+
+void f1()
+{
+  Pne.set(1);
+  MotorShot2.spin(fwd,20*fs,pct);
+  MotorShot1.spin(fwd,20*fs,pct);
+  Controller1.Screen.print("发射速度：  %d   ",fs*20);
+}
+
+void fire()
+{
+  Controller1.ButtonX.pressed(f1);
+  Controller1.ButtonB.pressed(f0);
+  Controller1.Screen.print("发射速度：  %d   ",fs*20);
+  wait(0.5,sec);
+  Pne.set(0);
+  MotorShot1.stop(hold);
+  MotorShot2.stop(hold);
+  Controller1.Screen.print("发射速度：  %d    ",fs*20);
+}
+
 /*
 IIIIIIIIII           I
     I     I         I
