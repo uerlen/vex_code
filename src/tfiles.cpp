@@ -158,7 +158,7 @@ bool af::pids::check(int input,float& move){ // ʹ������ pids.pre(50
         float timenow = Brain.Timer.time(sec);
         float delattime = timenow - lasttime;
         lasttime = timenow;
-        delattime /= 1;
+        delattime /= 0.05;
 
         p = delta * pk;
 
