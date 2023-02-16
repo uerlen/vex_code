@@ -125,7 +125,7 @@ void work(){
   if (Controller1.ButtonL2.pressing()){
     getspeed -= 100;
   }
-  MotorGet1.spin(forward,getspeed,pct);
+  // MotorGet1.spin(forward,getspeed,pct);
   MotorGet2.spin(forward,getspeed,pct);
 }
 
@@ -242,6 +242,15 @@ void tfd(int goal){
   while ( Ine.heading(degrees) , movement)  af::move(movement,-movement);
 }
 
+
+void cg(int goal){
+  pids go;
+  go.pre(goal,0.7,1,1,goal*0.1);
+  float movement;
+  MotorLB.resetPosition();
+  while ( go.check(MotorLB.position(degrees) , movement) ) af::move(movement,movement);
+}
+
 /*
     I           I
      I         I
@@ -261,7 +270,7 @@ void pre_auton(void) {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   af::reset();
-  MotorGet1.resetPosition();
+  // MotorGet1.resetPosition();
   MotorGet2.resetPosition();
   MotorShot1.resetPosition();
   MotorShot2.resetPosition();
@@ -276,13 +285,13 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  gfd(-200);
-  tfd(-90);
-  gfd(-50);
+  go(-200);
+  turn(-90);
+  go(-50);
   zzz.resume();
-  gfd(50);
-  tfd(45);
-  gfd(200);
+  go(50);
+  turn(45);
+  cg(200);
   z2();
   wait(2,sec);
   zzz.suspend();
