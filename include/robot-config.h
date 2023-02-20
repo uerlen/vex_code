@@ -12,6 +12,9 @@ extern motor MotorLB ;
 extern motor MotorRF ;
 extern motor MotorRB ;
 
+extern motor MotorRM ;
+extern motor MotorLM ;
+
 extern motor MotorGet2;
 extern motor MotorShot1;
 extern motor MotorShot2;

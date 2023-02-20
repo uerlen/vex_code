@@ -213,45 +213,6 @@ task zzz = task(z);
 
 
 /*
-IIIIIIIIII           I
-    I     I         I
-    I      I       I
-    I       I     I
-    I        I   I
-    I         I I
-IIIIIIIII      I
-自动 auton
-void pre(int g,float pkin,float ikin,float dkin,float imaxin)
-bool check(int input,float& move)
-pid(int g,int j,float pkin,float ikin,float dkin)
-*/
-
-void gfd(int goal){
-  pids go ;
-  go.pre(goal,0.7,0.3,0.3,goal*0.1);
-  float movement;
-  MotorLB.resetPosition();
-  while ( go.check(MotorLB.position(degrees) , movement) ) af::move(movement,movement);
-}
-
-void tfd(int goal){
-  pids go ;
-  go.pre(goal,0.7,0.3,0.3,goal*0.1);
-  float movement = 50;
-  Ine.calibrate();
-  while ( Ine.heading(degrees) , movement)  af::move(movement,-movement);
-}
-
-
-void cg(int goal){
-  pids go;
-  go.pre(goal,0.7,1,1,goal*0.1);
-  float movement;
-  MotorLB.resetPosition();
-  while ( go.check(MotorLB.position(degrees) , movement) ) af::move(movement,movement);
-}
-
-/*
     I           I
      I         I
       I       I
@@ -291,7 +252,7 @@ void autonomous(void) {
   zzz.resume();
   go(50);
   turn(45);
-  cg(200);
+  go(200);
   z2();
   wait(2,sec);
   zzz.suspend();
