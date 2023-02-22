@@ -110,14 +110,14 @@ void work(){
     wait(500,msec);
     pne.button(true,true);
   }
-  if (shot.op() == 1){
-    MotorShot1.spin(forward,shotspeed.num(),pct);
-    MotorShot2.spin(forward,shotspeed.num(),pct);
-  }
-  if (shot.op() == 0){
-    MotorShot1.stop();
-    MotorShot2.stop();
-  }
+  // if (shot.op() == 1){
+  //   MotorShot1.spin(forward,shotspeed.num(),pct);
+  //   MotorShot2.spin(forward,shotspeed.num(),pct);
+  // }
+  // if (shot.op() == 0){
+  //   MotorShot1.stop();
+  //   MotorShot2.stop();
+  // }
   int getspeed = 0;
   if (Controller1.ButtonL1.pressing()){
     getspeed += 100;
@@ -143,28 +143,29 @@ int fz=1;
 void z1()
 {
   fz*=-1;
+  if (fz==-1){MotorShot1.stop();MotorShot2.stop();}
+  else{MotorShot1.spin(fwd,100,pct);
+    MotorShot2.spin(reverse,100,pct);}
 }
 
 void z2()
 {
-  MotorFire.spin(fwd,100,pct);
-  wait(0.5,sec);
-  MotorFire.spin(reverse,100,pct);
-  wait(0.5,sec);
-  MotorFire.stop();
+   MotorFire.spin(reverse,100,pct);
+   wait(0.3,sec);
+   MotorFire.spin(fwd,100,pct);
 }
 
 int z()
 {
-  while (fz==1)  {
-    Controller1.ButtonB.pressed(z1);
+  Controller1.ButtonR2.pressed(z1);
+  Controller1.ButtonR1.pressed(z2);
+  if (fz==1)  {
     MotorShot1.spin(fwd,100,pct);
+    MotorShot2.spin(reverse,100,pct);
   }
-  MotorShot1.stop();
+  else {MotorShot1.stop();MotorShot2.stop();}
   return 1;
 }
-
-task zzz = task(z);
 
 
 // 旧版发射程序！！！
@@ -245,17 +246,52 @@ void pre_auton(void) {
   Controller1.Screen.print("Ready!");
 }
 
-void autonomous(void) {
-  go(-200);
+using namespace af;
+
+void gtd(int goal)
+{
+  go(goal,af::go_mode::pid,100);
+}
+
+
+void auton_old(){
+
+  //  旧版自动，由于无法在15秒内执行完所有步骤而退役，希望他永远没有再用的一天。
+  gtd(750);
   turn(-90);
-  go(-50);
-  zzz.resume();
-  go(50);
-  turn(45);
-  go(200);
+  gtd(-200);
+  MotorGet2.spin(fwd,100,pct);
+  gtd(350);
+  MotorGet2.stop();
+  gtd(-500);
+  turn(-135);
+  MotorShot1.spin(fwd,100,pct);
+  MotorShot2.spin(reverse,100,pct);
+  gtd(1150);
+  turn(-90);
   z2();
-  wait(2,sec);
-  zzz.suspend();
+  z2();
+  af::Stop();
+}
+
+
+void autonomous(void) {
+  
+  // gtd(750);
+  // turn(-90);
+  // gtd(-200);
+  // MotorGet2.spin(fwd,100,pct);
+  // gtd(350);
+  // MotorGet2.stop();
+  // gtd(-500);
+  // turn(-135);
+  // MotorShot1.spin(fwd,100,pct);
+  // MotorShot2.spin(reverse,100,pct);
+  // gtd(1150);
+  // turn(-90);
+  // z2();
+  // z2();
+  // af::Stop();
 }
 
 
@@ -263,6 +299,7 @@ void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
 
+    z();
     check();
     walk_con();
     work();
