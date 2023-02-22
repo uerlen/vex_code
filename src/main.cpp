@@ -277,21 +277,14 @@ void auton_old(){
 
 void autonomous(void) {
   
-  // gtd(750);
-  // turn(-90);
-  // gtd(-200);
-  // MotorGet2.spin(fwd,100,pct);
-  // gtd(350);
-  // MotorGet2.stop();
-  // gtd(-500);
-  // turn(-135);
-  // MotorShot1.spin(fwd,100,pct);
-  // MotorShot2.spin(reverse,100,pct);
-  // gtd(1150);
-  // turn(-90);
-  // z2();
-  // z2();
-  // af::Stop();
+  gtd(750);
+  turn(-90);
+  gtd(-200);
+  MotorGet2.spin(fwd,100,pct);
+  gtd(350);
+  MotorGet2.stop();
+  gtd(-500);
+  af::Stop();
 }
 
 
