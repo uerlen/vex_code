@@ -257,7 +257,7 @@ void af::move(float r,float l){
     
   }
 
-  const float turning_k = (2503.2)/360/3;
+  const float turning_k = (4290)/360/3;
 // turn for degree
   void af::turn(int goal , af::turn_mode mode){
     if (mode == af::turn_mode::dipan){
@@ -267,7 +267,7 @@ void af::move(float r,float l){
       reset();
       while ( go.check (MotorLB.position(degrees)) )  {
         movement = go.moving();
-        move(-movement * 0.4,movement * 0.4);
+        move(movement * -0.4,movement * 0.4);
       }
       Stop();
       return ;
@@ -279,7 +279,7 @@ void af::move(float r,float l){
       Ine.calibrate();
       while ( go.check (Ine.heading(degrees)) )  {
         movement = go.moving();
-        move(movement,-movement);
+        move(-movement,-movement);
       }
       return ;
       Stop();
