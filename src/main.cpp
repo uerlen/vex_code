@@ -118,7 +118,7 @@ void work(){
   //   MotorShot1.stop();
   //   MotorShot2.stop();
   // }
-  int getspeed = 0;
+  int getspeed = 100;
   if (Controller1.ButtonL1.pressing()){
     getspeed += 100;
   }
@@ -153,6 +153,7 @@ void z2()
    MotorFire.spin(reverse,100,pct);
    wait(0.3,sec);
    MotorFire.spin(fwd,100,pct);
+   MotorFire.stop();
 }
 
 int z()
@@ -278,12 +279,12 @@ void auton_old(){
 void autonomous(void) {
   
   gtd(750);
-  turn(-90);
-  gtd(-200);
+  turn(-95);
   MotorGet2.spin(fwd,100,pct);
-  gtd(350);
+  gtd(150);
   MotorGet2.stop();
-  gtd(-500);
+  gtd(-50);
+  turn(-95);
   af::Stop();
 }
 
