@@ -31,7 +31,9 @@ void Stop(){
   MotorRF.stop();
   MotorRB.stop();
 }
-void Stop(bool flag){
+
+
+void Stop2(bool flag){
   if (flag == true ){
     MotorLF.stop(hold);
     MotorLB.stop(hold);
@@ -67,6 +69,7 @@ void walk_con(){
   maxmin(a4);
 
   af::move(a2,a3);
+  if(a2==0 and a3==0){Stop2(true);}
 }
 
 /*
@@ -255,6 +258,10 @@ void gtd(int goal)
 }
 
 
+
+
+
+
 void auton_old(){
 
   //  旧版自动，由于无法在15秒内执行完所有步骤而退役，希望他永远没有再用的一天。
@@ -274,6 +281,11 @@ void auton_old(){
   z2();
   af::Stop();
 }
+
+
+
+
+
 
 
 void autonomous(void) {
